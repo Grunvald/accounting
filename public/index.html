@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>project</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
+<body>
+<noscript>
+  <strong>We're sorry but project doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+</noscript>
+<div id="app"></div>
+<script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
+<script>
+  var config = {
+    apiKey: "AIzaSyAtLS59icZ4hzUY0YuElNzjxm1PxwR017c",
+    authDomain: "homeaccounting-bba8d.firebaseapp.com",
+    databaseURL: "https://homeaccounting-bba8d.firebaseio.com",
+    projectId: "homeaccounting-bba8d",
+    storageBucket: "homeaccounting-bba8d.appspot.com",
+    messagingSenderId: "729782110521"
+  };
+  firebase.initializeApp(config);
+</script>
+</body>
+</html>
