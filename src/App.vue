@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn flat
-             :to="{name: 'SignIn'}"
+             @click="signIn"
       >
         Sign In
       </v-btn>
@@ -34,43 +34,47 @@
   import firebase from 'firebase/app';
   import {firestoreDb} from '@/firebase';
 
+  let provider = new firebase.auth.GoogleAuthProvider();
+
   export default {
     name: 'App',
-    mounted() {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          firestoreDb.collection(`${user.email}`).doc('userData').get()
-            .then((res) => {
-              if (!res.exists) {
-                firestoreDb.collection(`${user.email}`).doc('userData').set({
-                  userName: `${user.displayName}`,
-                  email: `${user.email}`,
-                });
-              }
-              else {
-                console.log(res.data());
-              }
-            })
-            .catch((error) => {
-              debugger;
-              console.log(error)
-            })
+    data: () => ({
+      data: {
+        token: '',
+        user: '',
+        error: {
+          code: '',
+          message: '',
+          email: '',
+          credential: ''
         }
-      })
+      },
+    }),
+    mounted() {
+      this.$store.dispatch('auth');
+
+      //this.$store.commit('auth', 'sadfsdf');
+      //this.$store.dispatch('auth', 'test1');
     },
     methods: {
       LogOut() {
-        firebase.auth().signOut()
-          .then(() => {
-            this.$router.push({name: 'Home'});
-            console.log('LogOut')
-          })
-          .catch((error) => {
-            console.log('LogOut Error')
-          });
+        this.$store.dispatch('logOut');
       },
-      test() {
-
+      signIn() {
+        firebase.auth().signInWithPopup(provider)
+          .then((res) => {
+            this.data.token = res.credential.accessToken;
+            this.data.user = res.user;
+            this.$store.commit('auth', this.data);
+            this.$router.push({name: 'Home'});
+          })
+          .catch((err) => {
+            this.data.error.code = err.code;
+            this.data.error.message = err.message;
+            this.data.email = err.email;
+            this.data.error.credential = err.credential;
+            //this.store.commit('auth', this.data);
+          });
       }
     }
   }

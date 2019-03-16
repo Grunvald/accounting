@@ -31,25 +31,7 @@
       },
     }),
     methods: {
-      signIn() {
-        firebase.auth().signInWithPopup(provider)
-          .then((res) => {
-            this.data.token = res.credential.accessToken;
-            this.data.user = res.user;
 
-            console.log(this);
-            //debugger;
-            this.$store.commit('auth', this.data);
-            this.$router.push({name: 'Home'});
-          })
-          .catch((err) => {
-            this.data.error.code = err.code;
-            this.data.error.message = err.message;
-            this.data.email = err.email;
-            this.data.error.credential = err.credential;
-            this.store.commit('auth', this.data);
-          });
-      }
     },
   }
 </script>
