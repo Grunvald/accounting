@@ -39,10 +39,10 @@
     mounted() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          firestoreDb.collection("HA").doc(`${user.email}`).get()
+          firestoreDb.collection(`${user.email}`).doc('userData').get()
             .then((res) => {
               if (!res.exists) {
-                firestoreDb.collection("HA").doc(`${user.email}`).set({
+                firestoreDb.collection(`${user.email}`).doc('userData').set({
                   userName: `${user.displayName}`,
                   email: `${user.email}`,
                 });
