@@ -9,9 +9,37 @@ export default new Vuex.Store({
       food:'Food',
       auto:'Auto'
     },
+    user:{
+      Loading:true,
+    },
+    money:{
+      income:{
+        once:{},
+        regular:{},
+      },
+      spent:{
+        auto:{},
+        food:{},
+        cloth:{},
+        entertainment:{},
+        medicine:{},
+        furniture:{},
+        tech:{},
+        transport:{},
+        household:{},
+        services:{},
+        other:{},
+      },
+    }
   },
-  mutations: {
-
+  getters:{
+    userName: state => {
+      if (!state.user.Loading) return state.user.user.displayName;
+    }
+  },  mutations: {
+    auth(state, payload){
+      state.user = payload;
+    }
   },
   actions: {
 

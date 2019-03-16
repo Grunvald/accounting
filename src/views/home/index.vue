@@ -89,9 +89,6 @@
 <script>
   export default {
     name: "index",
-    mounted(){
-      //debugger;
-    }
   }
 </script>
 
