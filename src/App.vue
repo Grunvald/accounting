@@ -1,28 +1,19 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
+      <v-toolbar-title class="headline text-uppercase d-flex align-center">
+        <v-img v-if="$store.getters.userPic" :src="$store.getters.userPic" class="user-pic"></v-img>
         <span class="font-weight-light">{{ $store.getters.userName }}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn flat
-             @click="signIn"
-      >
-        Sign In
-      </v-btn>
-
       <v-btn
           v-if="!$store.getters.userName"
           flat
-          :to="{name: 'SignUp'}"
+          @click="signIn"
       >
-        Sign Up
+        Sign In
       </v-btn>
-      <v-btn
-          @click="LogOut"
-      >Log out
-      </v-btn>
+      <v-btn v-else @click="LogOut">Log out</v-btn>
     </v-toolbar>
     <v-content>
       <router-view/>
@@ -52,9 +43,6 @@
     }),
     mounted() {
       this.$store.dispatch('auth');
-
-      //this.$store.commit('auth', 'sadfsdf');
-      //this.$store.dispatch('auth', 'test1');
     },
     methods: {
       LogOut() {
@@ -79,3 +67,12 @@
     }
   }
 </script>
+<style lang="scss">
+  .user-pic{
+    width: 36px;
+    height: 36px;
+    margin-right: 12px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 1px 0 rgba(#000, 0.6);
+  }
+</style>

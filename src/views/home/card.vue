@@ -1,0 +1,70 @@
+<template>
+  <div :class="['card']">
+    <div
+      :style="`transform:rotate(${-rotate + 0.1}deg); color:${color}`"
+      class="card__ico-wrap"
+    >
+      <component
+        :is="data.id"
+        class="card__ico"
+        :alt="data.id"
+      />
+    </div>
+    <!--    <div>
+          <DialogAdd :id="data.id"/>
+          <v-btn
+              flat
+              outline
+              @click="stateHistory"
+          >История
+          </v-btn>
+          <v-btn
+              flat
+              outline
+              @click="stateAdd"
+          >Добавить
+          </v-btn>
+        </div>-->
+  </div>
+</template>
+<script>
+  export default {
+    name: "card",
+    components: {
+      DialogAdd: () => import(/* webpackChunkName: "dialog" */ "./dialog-add.vue"),
+      auto: () => import( /* webpackChunkName: "icons" */ '@/icons/auto.svg'),
+      cafe: () => import( /* webpackChunkName: "icons" */ '@/icons/cafe.svg'),
+      cloth: () => import( /* webpackChunkName: "icons" */ '@/icons/cloth.svg'),
+      entertainment: () => import( /* webpackChunkName: "icons" */ '@/icons/entertainment.svg'),
+      food: () => import( /* webpackChunkName: "icons" */ '@/icons/food.svg'),
+      home: () => import( /* webpackChunkName: "icons" */ '@/icons/home.svg'),
+      hygiene: () => import( /* webpackChunkName: "icons" */ '@/icons/hygiene.svg'),
+      medicine: () => import( /* webpackChunkName: "icons" */ '@/icons/medicine.svg'),
+      other: () => import( /* webpackChunkName: "icons" */ '@/icons/other.svg'),
+      sport: () => import( /* webpackChunkName: "icons" */ '@/icons/sport.svg'),
+      taxi: () => import( /* webpackChunkName: "icons" */ '@/icons/taxi.svg'),
+      transport: () => import( /* webpackChunkName: "icons" */ '@/icons/transport.svg'),
+    },
+    data: () => ({
+      state: 'card',
+      dialogAdd: false,
+    }),
+    props: {
+      data: {type: Object, default: () => ({})},
+      rotate: {type: Number},
+      color: {type:String, default:'#000'}
+    },
+    methods: {
+      stateAdd() {
+        this.state = 'add';
+      },
+      stateHistory() {
+        this.state = 'history'
+      }
+    }
+  }
+</script>
+<style
+  lang="scss"
+  src="./_card.scss"
+></style>
