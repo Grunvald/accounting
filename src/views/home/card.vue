@@ -1,8 +1,9 @@
 <template>
   <div :class="['card']">
     <div
-      :style="`transform:rotate(${-rotate + 0.1}deg); color:${color}`"
+      :style="`transform:rotate(${-rotate}deg); color:${color}`"
       class="card__ico-wrap"
+      @click="$emit('showCalc')"
     >
       <component
         :is="data.id"
@@ -10,21 +11,6 @@
         :alt="data.id"
       />
     </div>
-    <!--    <div>
-          <DialogAdd :id="data.id"/>
-          <v-btn
-              flat
-              outline
-              @click="stateHistory"
-          >История
-          </v-btn>
-          <v-btn
-              flat
-              outline
-              @click="stateAdd"
-          >Добавить
-          </v-btn>
-        </div>-->
   </div>
 </template>
 <script>
@@ -66,5 +52,5 @@
 </script>
 <style
   lang="scss"
-  src="./_card.scss"
+  src="./scss/_card.scss"
 ></style>
