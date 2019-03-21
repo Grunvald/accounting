@@ -52,7 +52,14 @@
           :style="`color: ${selected.color};`">
           <component :is="selected.id" width="32" height="32"></component>
         </div>
-        <div class="calc__submit-text">Добавить в "{{ $store.state.title[selected.id] }}"</div>
+        <div class="calc__submit-text">
+          <button v-if="selected.id === 'add'">Добавить</button>
+          <button v-else-if="selected.id === 'spent'">Выбрать категорию</button>
+          <button
+            v-else
+            @click="addSpent"
+          >Добавить в "{{ $store.state.title[selected.id] }}"</button>
+        </div>
       </button>
     </div>
   </div>
@@ -98,6 +105,15 @@
       },
     },
     methods: {
+      addSpent(){
+        let res = {
+          id: this.selected.id,
+          price:this.value,
+          description:this.description,
+          date:new Date()
+        };
+        this.$store.dispatch('addSpent', res);
+      },
       plus() {
         this.res = this.value.toString() + '+';
         this.val = 0;

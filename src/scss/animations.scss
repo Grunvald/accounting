@@ -4,3 +4,14 @@
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+
+
+.calc-enter-active, .calc-leave-active {
+  transition: all .4s ease-in;
+}
+
+.calc-enter, .calc-leave-to
+  /* .slide-fade-leave-active до версии 2.1.8 */
+{
+  transform: translateY(100%);
+}

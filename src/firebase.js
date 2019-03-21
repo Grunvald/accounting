@@ -1,7 +1,3 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-
 const config = {
   apiKey: "AIzaSyAtLS59icZ4hzUY0YuElNzjxm1PxwR017c",
   authDomain: "homeaccounting-bba8d.firebaseapp.com",
@@ -10,8 +6,3 @@ const config = {
   storageBucket: "homeaccounting-bba8d.appspot.com",
   messagingSenderId: "729782110521"
 };
-
-firebase.initializeApp(config);
-
-const firestore = firebase.firestore();
-export const firestoreDb = firestore;

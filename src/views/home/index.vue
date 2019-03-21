@@ -20,25 +20,36 @@
             :rotate="rotate(index)"
             :color="colors[index]"
             @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
-
           />
         </div>
       </div>
       <div class="main__info">
-        <h1 v-if="hovered">{{ $store.state.title[hovered.id] }}</h1>
-        <h1 v-else>balance</h1>
+        <transition name="fade" mode="out-in">
+          <h1
+            v-if="hovered"
+            key="title">{{ $store.state.title[hovered.id] }}</h1>
+          <h1
+            v-else
+            key="balance">balance</h1>
+        </transition>
       </div>
     </div>
     <div class="main__control">
-      <button class="btn btn--add"></button>
-      <button class="btn btn--spent"></button>
+      <button
+        class="btn btn--spent"
+        @click="showCalc({id:'spent'})"
+      ></button>
+      <button
+        class="btn btn--add"
+        @click="showCalc({id:'add'})"
+      ></button>
     </div>
     <transition name="calc">
-    <Calc
-      v-if="isCalcShow"
-      :selected="selected"
-      @closeCalc="isCalcShow = false"
-    />
+      <Calc
+        v-if="isCalcShow"
+        :selected="selected"
+        @closeCalc="isCalcShow = false"
+      />
     </transition>
   </v-container>
 </template>
@@ -52,7 +63,7 @@
       Card,
       Calc,
     },
-    data:()=>({
+    data: () => ({
       colors: [
         '#DC143C',
         '#7CFC00',
@@ -68,21 +79,21 @@
         '#00FFFF',
       ],
       isCalcShow: false,
-      selected:'',
-      hovered:null
+      selected: '',
+      hovered: null
     }),
     mounted() {
 
     },
-    methods:{
-      rotate(index){
+    methods: {
+      rotate(index) {
         return 360 / Object.keys(this.$store.state.money.spent).length * index
       },
-      showCalc(id){
+      showCalc(id) {
         this.isCalcShow = true;
         this.selected = id;
       },
-      test(){
+      test() {
         debugger;
       }
     }

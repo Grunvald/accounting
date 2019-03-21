@@ -3,13 +3,41 @@ import './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+
+
+const config = {
+  apiKey: "AIzaSyAtLS59icZ4hzUY0YuElNzjxm1PxwR017c",
+  authDomain: "homeaccounting-bba8d.firebaseapp.com",
+  databaseURL: "https://homeaccounting-bba8d.firebaseio.com",
+  projectId: "homeaccounting-bba8d",
+  storageBucket: "homeaccounting-bba8d.appspot.com",
+  messagingSenderId: "729782110521"
+};
+
 
 //import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
+const firebaseApp = firebase.initializeApp(config);
+const db = firebaseApp.firestore();
+
+db.settings({
+  // timestampsInSnapshots: true
+});
+
+Vue.$db = db;
+
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created(){
+    firebase.auth().onAuthStateChanged((user) => {
+      this.$store.dispatch('stateChanged', user)
+      });
+  }
 }).$mount('#app');

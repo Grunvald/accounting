@@ -1,39 +1,95 @@
 <template>
-  <v-container class="">
-    <v-layout column>
-      <h3>sign in</h3>
-      <v-form>
-        <v-text-field label="Email"></v-text-field>
-        <v-text-field label="Password"></v-text-field>
-      </v-form>
-      <v-btn flat @click="signIn">Sign in</v-btn>
+  <v-container
+    fluid
+    fill-height
+  >
+    <v-layout
+      align-center
+      justify-center
+    >
+      <v-flex
+        xs12
+        sm8
+        md4
+      >
+        <v-card class="elevation-12">
+          <v-toolbar
+            dark
+            color="primary"
+          >
+            <v-toolbar-title>Вход</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-alert
+                :value="error"
+                type="warning"
+              >
+                {{ error }}
+              </v-alert>
+              <v-text-field
+                v-model="email"
+                prepend-icon="person"
+                name="login"
+                label="E-mail"
+                type="text"
+              ></v-text-field>
+              <v-text-field
+                v-model="password"
+                prepend-icon="lock"
+                name="password"
+                label="Password"
+                id="password"
+                type="password"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :disabled="!email || !password || processing"
+              color="primary"
+              @click.prevent="signIn"
+            >Войти
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
-
 <script>
-  import firebase from 'firebase/app';
-  import {firestoreDb} from '@/firebase';
-
-  let provider = new firebase.auth.GoogleAuthProvider();
   export default {
-    name: "sign-in",
+    name: "sign-up",
     data: () => ({
-      data: {
-        token: '',
-        user: '',
-        error: {
-          code: '',
-          message: '',
-          email: '',
-          credential: ''
-        }
-      },
+      email: null,
+      password: null
     }),
-    methods: {
-
+    watch:{
+      isAuth(val){
+        if (val) this.$router.push({name:'Home'})
+      }
     },
+    computed: {
+      error() {
+        return this.$store.getters.getError;
+      },
+      processing(){
+        return this.$store.getters.getProcessing
+      },
+      isAuth(){
+        return this.$store.getters.isUserAuth;
+      }
+    },
+    methods: {
+      signIn() {
+        this.$store.commit('cleanError');
+        this.$store.dispatch('signIn', {email: this.email, password: this.password})
+      }
+    }
   }
 </script>
-
-<style lang="scss" src=""></style>
+<style
+  lang="scss"
+  src=""
+></style>
