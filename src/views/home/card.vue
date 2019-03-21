@@ -17,7 +17,6 @@
   export default {
     name: "card",
     components: {
-      DialogAdd: () => import(/* webpackChunkName: "dialog" */ "./dialog-add.vue"),
       auto: () => import( /* webpackChunkName: "icons" */ '@/icons/auto.svg'),
       cafe: () => import( /* webpackChunkName: "icons" */ '@/icons/cafe.svg'),
       cloth: () => import( /* webpackChunkName: "icons" */ '@/icons/cloth.svg'),

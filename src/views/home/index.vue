@@ -11,20 +11,32 @@
       >
         <div
           class="main__item"
-          :style="`transform:rotate(${rotate(index)}deg)`">
+          :style="`transform:rotate(${rotate(index)}deg)`"
+          @mouseover="hovered = item"
+          @mouseout="hovered = null"
+        >
           <Card
             :data="$store.getters[item.id]"
             :rotate="rotate(index)"
             :color="colors[index]"
-            @showCalc="isCalcShow = true"
+            @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
+
           />
         </div>
       </div>
-      <div class="main__info"></div>
+      <div class="main__info">
+        <h1 v-if="hovered">{{ $store.state.title[hovered.id] }}</h1>
+        <h1 v-else>balance</h1>
+      </div>
+    </div>
+    <div class="main__control">
+      <button class="btn btn--add"></button>
+      <button class="btn btn--spent"></button>
     </div>
     <transition name="calc">
     <Calc
       v-if="isCalcShow"
+      :selected="selected"
       @closeCalc="isCalcShow = false"
     />
     </transition>
@@ -56,6 +68,8 @@
         '#00FFFF',
       ],
       isCalcShow: false,
+      selected:'',
+      hovered:null
     }),
     mounted() {
 
@@ -63,6 +77,13 @@
     methods:{
       rotate(index){
         return 360 / Object.keys(this.$store.state.money.spent).length * index
+      },
+      showCalc(id){
+        this.isCalcShow = true;
+        this.selected = id;
+      },
+      test(){
+        debugger;
       }
     }
   }

@@ -11,10 +11,10 @@
       <div class="calc__input">
         <label>
           <input
-          :value="value"
-          type="text"
-          disabled
-        >
+            :value="value"
+            type="text"
+            disabled
+          >
           <span class="calc__input-delete">
             <svg width="40" height="24" viewBox="0 0 40 24" @click="deleteLast">
               <path d="M0,12 l12,-12 l28,0 l0,24 l-28,0 l-12,-12" stroke="white" fill="rgb(48, 128, 38)"></path>
@@ -46,21 +46,44 @@
         <button @click="divide">/</button>
         <button @click="equal">=</button>
       </div>
-      <div class="calc__submit"></div>
-      <h1>sdf</h1>
+      <button class="calc__submit">
+        <div
+          class="calc__submit-icon"
+          :style="`color: ${selected.color};`">
+          <component :is="selected.id" width="32" height="32"></component>
+        </div>
+        <div class="calc__submit-text">Добавить в "{{ $store.state.title[selected.id] }}"</div>
+      </button>
     </div>
   </div>
 </template>
 <script>
-  const days = [ 'Воскресенье', 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота' ];
-  const month = [ 'Января', 'Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря', ];
+  const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+  const month = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря',];
   let date = new Date();
   export default {
     name: "calc",
+    components: {
+      auto: () => import( /* webpackChunkName: "icons" */ '@/icons/auto.svg'),
+      cafe: () => import( /* webpackChunkName: "icons" */ '@/icons/cafe.svg'),
+      cloth: () => import( /* webpackChunkName: "icons" */ '@/icons/cloth.svg'),
+      entertainment: () => import( /* webpackChunkName: "icons" */ '@/icons/entertainment.svg'),
+      food: () => import( /* webpackChunkName: "icons" */ '@/icons/food.svg'),
+      home: () => import( /* webpackChunkName: "icons" */ '@/icons/home.svg'),
+      hygiene: () => import( /* webpackChunkName: "icons" */ '@/icons/hygiene.svg'),
+      medicine: () => import( /* webpackChunkName: "icons" */ '@/icons/medicine.svg'),
+      other: () => import( /* webpackChunkName: "icons" */ '@/icons/other.svg'),
+      sport: () => import( /* webpackChunkName: "icons" */ '@/icons/sport.svg'),
+      taxi: () => import( /* webpackChunkName: "icons" */ '@/icons/taxi.svg'),
+      transport: () => import( /* webpackChunkName: "icons" */ '@/icons/transport.svg'),
+    },
+    props: {
+      selected: {type: Object, default: () => ({})}
+    },
     data: () => ({
       val: 0,
       res: null,
-      description:'',
+      description: '',
     }),
     computed: {
       header() {
@@ -79,23 +102,23 @@
         this.res = this.value.toString() + '+';
         this.val = 0;
       },
-      minus(){
+      minus() {
         this.res = this.value.toString() + '-';
         this.val = 0;
       },
-      divide(){
+      divide() {
         this.res = this.value.toString() + '/';
         this.val = 0;
       },
-      multiply(){
+      multiply() {
         this.res = this.value.toString() + '*';
         this.val = 0;
       },
-      equal(){
+      equal() {
         this.res += this.value;
         this.val = eval(this.res)
       },
-      deleteLast(){
+      deleteLast() {
         let len = this.value.toString().length;
         this.val = len > 1 ? this.value.toString().substring(0, (len - 1)) : 0;
       }

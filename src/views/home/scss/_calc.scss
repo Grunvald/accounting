@@ -5,6 +5,7 @@ $green: rgb(48, 128, 38);
   margin: auto;
   text-align: center;
   background: #fff;
+  transform: translateZ(0);
   &-wrap {
     position: fixed;
     width: 100%;
@@ -115,7 +116,7 @@ $green: rgb(48, 128, 38);
       cursor: pointer;
       margin: 2px;
       border-radius: 4px;
-      transition: border-color 0.5s, background 0.5s;
+      transition: border-color 0.5s, background 0.5s, transform 0.2s;
       &:hover{
         border-color: $green;
       }
@@ -124,7 +125,40 @@ $green: rgb(48, 128, 38);
       }
       &:active{
         background: rgba($green, 0.5);
+        transform: scale(0.98);
       }
+    }
+  }
+  &__submit{
+    width: 100%;
+    line-height: 50px;
+    border:1px solid rgba($green, 0.6);
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    margin: 12px 0;
+    transition: border-color 0.5s, background 0.5s, transform 0.2s;
+    &:hover{
+      border-color: $green;
+    }
+    &:focus{
+      outline: none;
+    }
+    &:active{
+      background: rgba($green, 0.5);
+      transform: scale(0.99);
+    }
+    &-icon{
+      flex:none;
+      height: 32px;
+    }
+    &-text{
+      width: 100%;
+      font-size: 24px;
+      text-align: center;
     }
   }
 }
