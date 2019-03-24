@@ -4,48 +4,48 @@ export default {
     error: null,
     categories: {
       cafe: {
-        id: 'food',
-        title: ''
+        id: 'cafe',
+        title: 'Кафе'
       },
       cloth: {
         id: 'cloth',
-        title: ''
+        title: 'Одежда'
       },
       entertainment: {
         id: 'entertainment',
-        title: ''
+        title: 'Развдечения'
       },
       food: {
         id: 'food',
-        title: ''
+        title: 'Еда'
       },
       home: {
         id: 'home',
-        title: ''
+        title: 'Быт'
       },
       hygiene: {
         id: 'hygiene',
-        title: ''
+        title: 'Гигиена'
       },
       medicine: {
         id: 'medicine',
-        title: ''
+        title: 'Медицина'
       },
       other: {
         id: 'other',
-        title: ''
+        title: 'Другое'
       },
       sport: {
         id: 'sport',
-        title: ''
+        title: 'Спорт'
       },
       taxi: {
         id: 'taxi',
-        title: ''
+        title: 'Такси'
       },
       transport: {
         id: 'transport',
-        title: ''
+        title: 'Транспорт'
       },
     }
   },
@@ -62,7 +62,8 @@ export default {
   },
   getters: {
     getProcessing: (state) => state.processing,
-    getError: (state) => state.error
+    getError: (state) => state.error,
+    getDefauilState: (state) => state.categories,
   },
 
   actions: {},

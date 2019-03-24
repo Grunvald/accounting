@@ -1,11 +1,8 @@
 <template>
   <v-container>
-    <div
-      v-if="$store.state.money"
-      class="main"
-    >
+    <div class="main">
       <div
-        v-for="(item, key, index) in $store.state.money.spent"
+        v-for="(item, key, index) in $store.getters.getData"
         :key="key"
         class="main__item-wrap"
       >
@@ -16,7 +13,7 @@
           @mouseout="hovered = null"
         >
           <Card
-            :data="$store.getters[item.id]"
+            :data="item"
             :rotate="rotate(index)"
             :color="colors[index]"
             @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
@@ -25,12 +22,19 @@
       </div>
       <div class="main__info">
         <transition name="fade" mode="out-in">
-          <h1
+          <div
             v-if="hovered"
-            key="title">{{ $store.state.title[hovered.id] }}</h1>
-          <h1
+            key="title">
+            <h2 v-text="$store.getters.getData[hovered.id].title"></h2>
+            <h2 v-text="$store.getters.getSpent[hovered.id]"></h2>
+          </div>
+          <div
             v-else
-            key="balance">balance</h1>
+            key="balance"
+          >
+            <h2 v-text="$store.getters.getBalance"></h2>
+            <h2 v-text="$store.getters.getSpent.total"></h2>
+          </div>
         </transition>
       </div>
     </div>
@@ -48,7 +52,9 @@
       <Calc
         v-if="isCalcShow"
         :selected="selected"
+        :colors="colors"
         @closeCalc="isCalcShow = false"
+        @selectCategory="selected = $event"
       />
     </transition>
   </v-container>
@@ -87,7 +93,7 @@
     },
     methods: {
       rotate(index) {
-        return 360 / Object.keys(this.$store.state.money.spent).length * index
+        return 360 / Object.keys(this.$store.getters.getData).length * index
       },
       showCalc(id) {
         this.isCalcShow = true;

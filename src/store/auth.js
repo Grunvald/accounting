@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import Vue from "vue";
 
 export default {
   state: {
@@ -28,14 +29,23 @@ export default {
       commit('setProcessing', true);
       commit('cleanError');
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(() => {
+        .then((res) => {
           commit('setProcessing', false);
+          Vue.$db.collection(payload.email).doc('user').set({
+            email: payload.email,
+            uid: res.user.uid,
+          });
+          Vue.$db.collection(payload.email).doc('income').set({
+            once: {},
+            regular: {}
+          });
         })
         .catch((error) => {
           commit('setProcessing', false);
           commit('setError', error.message);
         })
     },
+
     signIn({commit}, payload) {
       commit('setProcessing', true);
       commit('cleanError');
@@ -53,7 +63,6 @@ export default {
     },
     stateChanged({commit, dispatch}, payload) {
       if (payload) {
-        console.log(payload);
         commit('setUser', {uid: payload.uid, email: payload.email});
         dispatch('loadData', payload.email);
       } else {

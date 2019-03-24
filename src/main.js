@@ -23,6 +23,7 @@ const config = {
 Vue.config.productionTip = false;
 
 const firebaseApp = firebase.initializeApp(config);
+
 const db = firebaseApp.firestore();
 
 db.settings({

@@ -7,7 +7,7 @@
           :src="$store.getters.userPic"
           class="user-pic"
         ></v-img>
-        <span class="font-weight-light">{{ $store.getters.userName }}</span>
+        <span class="font-weight-light">{{ $store.getters.userEmail }}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -32,7 +32,9 @@
       </template>
     </v-toolbar>
     <v-content>
-      <router-view/>
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
     </v-content>
   </v-app>
 </template>
@@ -62,6 +64,7 @@
     methods: {
       signOut() {
         this.$store.dispatch('signOut');
+        this.$router.push({name: 'SignIn'});
       },
     }
   }
