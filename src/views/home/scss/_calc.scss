@@ -1,11 +1,12 @@
 $green: rgb(48, 128, 38);
 
 .calc {
-  width: 500px;
+  @include sizing('width', (320px: 320px, 500px: 500px));
   margin: auto;
   text-align: center;
   background: #fff;
   transform: translateZ(0);
+  overflow: hidden;
   &-wrap {
     position: fixed;
     width: 100%;
@@ -84,28 +85,40 @@ $green: rgb(48, 128, 38);
       top: 50%;
       transform:translate(0, -50%);
     }
+    &-pre{
+      width: 32px;
+      height: 100%;
+      display: flex;
+      padding-top: 4px;
+      flex-direction: column;
+      position: absolute;
+      left: 6px;
+      font-size: 12px;
+      justify-content: space-between;
+    }
   }
   &__desc{
     width: 100%;
     margin: 12px 0;
-    input{
-      width: 100%;
-      line-height: 32px;
-      padding: 0 12px;
-      border:1px solid rgba(gray,0.3);
-      border-radius: 4px;
-      &:focus{
-        outline: none;
-        border-color: gray;
-      }
+    display: flex;
+    align-items: center;
+    .svg-icon{
+      height: 32px;
+      width: 32px;
+      margin-right: 16px;
+      flex:none;
     }
   }
   &__keyboard{
     display: flex;
     flex-wrap: wrap;
     width: calc(100% + 4px);
+    height: 225px;
     margin: -2px;
     button{
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: calc(25% - 4px);
       line-height: 50px;
       border:1px solid rgba($green, 0.6);
@@ -128,6 +141,9 @@ $green: rgb(48, 128, 38);
         transform: scale(0.98);
       }
     }
+    .svg-icon{
+      height: 40px;
+    }
   }
   &__submit{
     width: 100%;
@@ -140,7 +156,7 @@ $green: rgb(48, 128, 38);
     align-items: center;
     padding: 0 24px;
     margin: 12px 0;
-    transition: border-color 0.5s, background 0.5s, transform 0.2s;
+    transition: border-color 0.5s, background 0.5s, transform 0.2s, opacity 0.3s;
     &:hover{
       border-color: $green;
     }

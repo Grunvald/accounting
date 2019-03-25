@@ -1,46 +1,67 @@
 <template>
-  <v-container>
-    <div
-      v-if="$store.state.money"
-      class="main"
-    >
+  <main>
+    <div class="main">
       <div
-        v-for="(item, key, index) in $store.state.money.spent"
+        v-for="(item, key, index) in $store.getters.getData"
         :key="key"
         class="main__item-wrap"
       >
         <div
           class="main__item"
           :style="`transform:rotate(${rotate(index)}deg)`"
-          @mouseover="hovered = item"
-          @mouseout="hovered = null"
+          @mouseover="hovered = {id:item.id, index:index, color:colors[index]}"
+          @mouseleave="hovered = null"
         >
           <Card
-            :data="$store.getters[item.id]"
+            :data="item"
             :rotate="rotate(index)"
             :color="colors[index]"
+            :percent="($store.getters.getSpent[item.id] / $store.getters.getSpent.total * 100).toFixed(2)"
             @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
-
           />
         </div>
       </div>
       <div class="main__info">
-        <h1 v-if="hovered">{{ $store.state.title[hovered.id] }}</h1>
-        <h1 v-else>balance</h1>
+        <transition name="slide">
+          <div
+            v-if="hovered"
+            key="title"
+            class="main__info-title"
+          >
+            <h2 v-text="$store.getters.getData[hovered.id].title"></h2>
+            <h3 v-html="formatMoney($store.getters.getSpent[hovered.id])"></h3>
+          </div>
+          <div
+            v-else
+            key="balance"
+            class="main__info-balance"
+          >
+            <h2 v-html="balance"></h2>
+            <h3 v-html="totalSpent"></h3>
+          </div>
+        </transition>
       </div>
     </div>
     <div class="main__control">
-      <button class="btn btn--add"></button>
-      <button class="btn btn--spent"></button>
+      <button
+        class="btn btn--spent"
+        @click="showCalc({id:'spent'})"
+      ></button>
+      <button
+        class="btn btn--add"
+        @click="showCalc({id:'add'})"
+      ></button>
     </div>
     <transition name="calc">
-    <Calc
-      v-if="isCalcShow"
-      :selected="selected"
-      @closeCalc="isCalcShow = false"
-    />
+      <Calc
+        v-if="isCalcShow"
+        :selected="selected"
+        :colors="colors"
+        @closeCalc="isCalcShow = false"
+        @selectCategory="selected = $event"
+      />
     </transition>
-  </v-container>
+  </main>
 </template>
 <script>
   import Card from './card';
@@ -52,10 +73,10 @@
       Card,
       Calc,
     },
-    data:()=>({
+    data: () => ({
       colors: [
         '#DC143C',
-        '#7CFC00',
+        '#ff4400',
         '#00FA9A',
         '#FF1493',
         '#556B2F',
@@ -68,22 +89,32 @@
         '#00FFFF',
       ],
       isCalcShow: false,
-      selected:'',
-      hovered:null
+      selected: '',
+      hovered: null
     }),
-    mounted() {
-
-    },
-    methods:{
-      rotate(index){
-        return 360 / Object.keys(this.$store.state.money.spent).length * index
+    computed:{
+      balance(){
+        return this.formatMoney(this.$store.getters.getBalance);
       },
-      showCalc(id){
+      totalSpent(){
+        return this.formatMoney(this.$store.getters.getSpent.total);
+      }
+    },
+    methods: {
+      rotate(index) {
+        return 360 / Object.keys(this.$store.getters.getData).length * index
+      },
+      showCalc(id) {
         this.isCalcShow = true;
         this.selected = id;
       },
-      test(){
+      test() {
         debugger;
+      },
+      formatMoney(value) {
+        let val = (value / 1).toFixed(2).replace('.', ',');
+        let res = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").split(',');
+        return `${res[0]}<small>.${res[1]}</small>`
       }
     }
   }
