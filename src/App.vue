@@ -1,6 +1,9 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar
+      app
+      :class="{'blurred':isBlured}"
+    >
       <v-toolbar-title class="headline text-uppercase d-flex align-center">
         <v-img
           v-if="$store.getters.userPic"
@@ -33,7 +36,7 @@
     </v-toolbar>
     <v-content>
       <transition name="fade" mode="out-in">
-        <router-view/>
+        <router-view @CalcShow="isBlured = $event"/>
       </transition>
     </v-content>
   </v-app>
@@ -52,6 +55,7 @@
           credential: ''
         }
       },
+      isBlured:false,
     }),
     computed: {
       isAuth() {

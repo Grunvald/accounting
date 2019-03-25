@@ -1,6 +1,9 @@
 <template>
   <main>
-    <div class="main">
+    <div
+      :class="{'blurred':isCalcShow}"
+      class="main"
+    >
       <div
         v-for="(item, key, index) in $store.getters.getData"
         :key="key"
@@ -42,7 +45,10 @@
         </transition>
       </div>
     </div>
-    <div class="main__control">
+    <div
+      :class="{'blurred':isCalcShow}"
+      class="main__control"
+    >
       <button
         class="btn btn--spent"
         @click="showCalc({id:'spent'})"
@@ -52,10 +58,17 @@
         @click="showCalc({id:'add'})"
       ></button>
     </div>
+    <transition name="fade">
+      <div
+        v-if="isCalcShow"
+        class="overlay"
+      ></div>
+    </transition>
     <transition name="calc">
       <Calc
         v-if="isCalcShow"
         :selected="selected"
+        :isCalcShow="isCalcShow"
         :colors="colors"
         @closeCalc="isCalcShow = false"
         @selectCategory="selected = $event"
@@ -92,13 +105,21 @@
       selected: '',
       hovered: null
     }),
-    computed:{
-      balance(){
+    watch:{
+      isCalcShow(value){
+        this.$emit('CalcShow', value)
+      }
+    },
+    computed: {
+      balance() {
         return this.formatMoney(this.$store.getters.getBalance);
       },
-      totalSpent(){
+      totalSpent() {
         return this.formatMoney(this.$store.getters.getSpent.total);
       }
+    },
+    mounted(){
+      window.addEventListener('popstate', this.closeCalcOnBack)
     },
     methods: {
       rotate(index) {
@@ -108,8 +129,11 @@
         this.isCalcShow = true;
         this.selected = id;
       },
-      test() {
-        debugger;
+      closeCalcOnBack(event) {
+        if(this.isCalcShow){
+          event.preventDefault();
+          this.isCalcShow = false;
+        }
       },
       formatMoney(value) {
         let val = (value / 1).toFixed(2).replace('.', ',');

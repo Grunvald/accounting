@@ -151,6 +151,7 @@
     props: {
       selected: {type: Object, default: () => ({})},
       colors: {type: Array, default: () => ([])},
+      isCalcShow: {type: Boolean, default: false}
     },
     data: () => ({
       val: 0,
@@ -158,6 +159,10 @@
       description: '',
       isSelectCategory: false,
     }),
+    mounted() {
+      document.addEventListener('click', this.close);
+      document.addEventListener('', this.close)
+    },
     computed: {
       header() {
         return 'Новый расход'
@@ -188,7 +193,6 @@
         } else {
           this.isSelectCategory = true;
         }
-        ;
       },
       addMoney() {
         debugger;
@@ -225,6 +229,9 @@
         let len = this.value.toString().length;
         this.val = len > 1 ? this.value.toString().substring(0, (len - 1)) : 0;
       },
+      close(e) {
+        if (e.target.classList.contains('calc-wrap')) this.$emit('closeCalc')
+      }
     }
   }
 </script>
