@@ -11,12 +11,14 @@ export default new Router({
     {
       path: '/auth/sign-in',
       name: 'SignIn',
-      component: () => import(/* webpackChunkName: "pages/auth/sign-in" */ '@/views/auth/sign-in')
+      component: () => import(/* webpackChunkName: "pages/auth/sign-in" */ '@/views/auth/sign-in'),
+      beforeEnter: notAuth
     },
     {
       path: '/auth/sign-up',
       name: 'SignUp',
-      component: () => import(/* webpackChunkName: "pages/auth/sign-in" */ '@/views/auth/sign-up')
+      component: () => import(/* webpackChunkName: "pages/auth/sign-in" */ '@/views/auth/sign-up'),
+      beforeEnter: notAuth
     },
     {
       path: '/',
@@ -32,5 +34,13 @@ function auth(from, to, next) {
     next();
   } else {
     next({name:'SignIn'});
+  }
+}
+
+function notAuth(from, to, next) {
+  if (!Store.getters.isUserAuth) {
+    next();
+  } else {
+    next({name:'Home'});
   }
 }

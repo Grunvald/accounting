@@ -4,12 +4,25 @@
       :style="`transform:rotate(${-rotate}deg); color:${color}`"
       class="card__ico-wrap"
       @click="$emit('showCalc')"
+      @mouseover="hovered = true"
+      @mouseleave="hovered = false"
     >
-      <component
-        :is="data.id"
-        class="card__ico"
-        :alt="data.id"
-      />
+      <transition
+        name="flip"
+        mode="out-in"
+      >
+        <span
+          v-if="hovered"
+          class="card__ico-percent"
+        >{{percent}}%
+        </span>
+        <component
+          v-else
+          :is="data.id"
+          class="card__ico"
+          :alt="data.id"
+        />
+      </transition>
     </div>
   </div>
 </template>
@@ -33,11 +46,13 @@
     data: () => ({
       state: 'card',
       dialogAdd: false,
+      hovered: false,
     }),
     props: {
       data: {type: Object, default: () => ({})},
       rotate: {type: Number},
-      color: {type:String, default:'#000'}
+      color: {type: String, default: '#000'},
+      percent: {type: [String, Number], default: 0}
     },
     methods: {
       stateAdd() {

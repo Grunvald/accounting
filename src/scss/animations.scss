@@ -1,10 +1,10 @@
 .fade-enter-active, .fade-leave-active {
   transition: opacity .3s;
 }
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
-
 
 .calc-enter-active, .calc-leave-active {
   transition: all .4s ease-in;
@@ -14,4 +14,39 @@
   /* .slide-fade-leave-active до версии 2.1.8 */
 {
   transform: translateY(100%);
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: opacity .3s, transform 0.3s ease-out;
+}
+
+.slide-leave-active {
+  position: absolute;
+}
+
+.slide-enter {
+  opacity: 0;
+  transform: translate(-100%, 0) skewX(-40deg);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translate(100%, 0) skewX(-40deg);
+}
+
+.flip-enter-active, .flip-leave-active {
+  transition: transform 0.15s ease-out;
+}
+
+.flip-leave-active {
+  position: absolute;
+}
+
+.flip-enter {
+  transform: scaleX(0);
+  transform-style: preserve-3d;
+}
+
+.flip-leave-to {
+  transform: scaleX(0);
 }

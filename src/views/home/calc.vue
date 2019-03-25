@@ -14,7 +14,10 @@
       <div class="calc__input">
         <label>
           <span class="calc__input-pre">
-            <Money width="28" height="28"/>
+            <Money
+              width="28"
+              height="28"
+            />
             <span>BYN</span>
           </span>
           <input
@@ -56,47 +59,45 @@
           v-model="description"
           label="Добавьте заметку"
         ></v-text-field>
-        <!--<label>-->
-        <!--<Write />-->
-        <!--<input-->
-        <!--v-model="description"-->
-        <!--type="text"-->
-        <!--&gt; </label>-->
       </div>
-      <div
-        v-if="isSelectCategory"
-        class="calc__keyboard"
-      >
-        <button
-          v-for="(item, key) in $store.getters.getCategories"
-          :key="key"
-          :style="`color:${colors[key]}`"
-          @click="selectCategory(item, key)"
+      <transition name="slide">
+        <div
+          v-if="isSelectCategory"
+          class="calc__keyboard"
+          key="categorySelect"
         >
-          <component :is="item"></component>
-        </button>
-      </div>
-      <div
-        v-else
-        class="calc__keyboard"
-      >
-        <button @click="val +='1'">1</button>
-        <button @click="val +='2'">2</button>
-        <button @click="val +='3'">3</button>
-        <button @click="plus">+</button>
-        <button @click="val +='4'">4</button>
-        <button @click="val +='5'">5</button>
-        <button @click="val +='6'">6</button>
-        <button @click="minus">-</button>
-        <button @click="val +='7'">7</button>
-        <button @click="val +='8'">8</button>
-        <button @click="val +='9'">9</button>
-        <button @click="multiply">x</button>
-        <button @click="val +='.'">.</button>
-        <button @click="val +='0'">0</button>
-        <button @click="divide">/</button>
-        <button @click="equal">=</button>
-      </div>
+          <button
+            v-for="(item, key) in $store.getters.getCategories"
+            :key="key"
+            :style="`color:${colors[key]}`"
+            @click="selectCategory(item, key)"
+          >
+            <component :is="item"></component>
+          </button>
+        </div>
+        <div
+          v-else
+          class="calc__keyboard"
+          key="calcButtons"
+        >
+          <button @click="val +='1'">1</button>
+          <button @click="val +='2'">2</button>
+          <button @click="val +='3'">3</button>
+          <button @click="plus">+</button>
+          <button @click="val +='4'">4</button>
+          <button @click="val +='5'">5</button>
+          <button @click="val +='6'">6</button>
+          <button @click="minus">-</button>
+          <button @click="val +='7'">7</button>
+          <button @click="val +='8'">8</button>
+          <button @click="val +='9'">9</button>
+          <button @click="multiply">x</button>
+          <button @click="val +='.'">.</button>
+          <button @click="val +='0'">0</button>
+          <button @click="divide">/</button>
+          <button @click="equal">=</button>
+        </div>
+      </transition>
       <button
         :class="{'disabled':$store.getters.getProcessing || isSelectCategory && !selected.color || selected.color && !value}"
         class="calc__submit"

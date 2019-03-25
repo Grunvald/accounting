@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <main>
     <div class="main">
       <div
         v-for="(item, key, index) in $store.getters.getData"
@@ -9,31 +9,35 @@
         <div
           class="main__item"
           :style="`transform:rotate(${rotate(index)}deg)`"
-          @mouseover="hovered = item"
-          @mouseout="hovered = null"
+          @mouseover="hovered = {id:item.id, index:index, color:colors[index]}"
+          @mouseleave="hovered = null"
         >
           <Card
             :data="item"
             :rotate="rotate(index)"
             :color="colors[index]"
+            :percent="($store.getters.getSpent[item.id] / $store.getters.getSpent.total * 100).toFixed(2)"
             @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
           />
         </div>
       </div>
       <div class="main__info">
-        <transition name="fade" mode="out-in">
+        <transition name="slide">
           <div
             v-if="hovered"
-            key="title">
+            key="title"
+            class="main__info-title"
+          >
             <h2 v-text="$store.getters.getData[hovered.id].title"></h2>
-            <h2 v-text="$store.getters.getSpent[hovered.id]"></h2>
+            <h3 v-html="formatMoney($store.getters.getSpent[hovered.id])"></h3>
           </div>
           <div
             v-else
             key="balance"
+            class="main__info-balance"
           >
-            <h2 v-text="$store.getters.getBalance"></h2>
-            <h2 v-text="$store.getters.getSpent.total"></h2>
+            <h2 v-html="balance"></h2>
+            <h3 v-html="totalSpent"></h3>
           </div>
         </transition>
       </div>
@@ -57,7 +61,7 @@
         @selectCategory="selected = $event"
       />
     </transition>
-  </v-container>
+  </main>
 </template>
 <script>
   import Card from './card';
@@ -72,7 +76,7 @@
     data: () => ({
       colors: [
         '#DC143C',
-        '#7CFC00',
+        '#ff4400',
         '#00FA9A',
         '#FF1493',
         '#556B2F',
@@ -88,8 +92,13 @@
       selected: '',
       hovered: null
     }),
-    mounted() {
-
+    computed:{
+      balance(){
+        return this.formatMoney(this.$store.getters.getBalance);
+      },
+      totalSpent(){
+        return this.formatMoney(this.$store.getters.getSpent.total);
+      }
     },
     methods: {
       rotate(index) {
@@ -101,6 +110,11 @@
       },
       test() {
         debugger;
+      },
+      formatMoney(value) {
+        let val = (value / 1).toFixed(2).replace('.', ',');
+        let res = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").split(',');
+        return `${res[0]}<small>.${res[1]}</small>`
       }
     }
   }

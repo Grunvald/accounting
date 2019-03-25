@@ -1,11 +1,12 @@
 $green: rgb(48, 128, 38);
 
 .calc {
-  width: 500px;
+  @include sizing('width', (320px: 320px, 500px: 500px));
   margin: auto;
   text-align: center;
   background: #fff;
   transform: translateZ(0);
+  overflow: hidden;
   &-wrap {
     position: fixed;
     width: 100%;
