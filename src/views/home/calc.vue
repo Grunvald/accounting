@@ -8,121 +8,125 @@
           @click="$emit('closeCalc')"
         ></button>
       </div>
-      <div class="calc__title">
-        <span v-text="today"></span>
-      </div>
-      <div class="calc__input">
-        <label>
-          <span class="calc__input-pre">
-            <Money
-              width="28"
-              height="28"
-            />
-            <span>BYN</span>
-          </span>
-          <input
-            :value="value"
-            type="text"
-            disabled
-          >
-          <span class="calc__input-delete">
-            <svg
-              width="40"
-              height="24"
-              viewBox="0 0 40 24"
-              @click="deleteLast"
+      <div class="calc__body">
+        <div class="calc__title">
+          <span v-text="today"></span>
+        </div>
+        <div class="calc__input">
+          <label>
+            <span class="calc__input-pre">
+              <Money
+                width="28"
+                height="28"
+              />
+              <span>BYN</span>
+            </span>
+            <input
+              :value="value"
+              type="text"
+              disabled
             >
-              <path
-                d="M0,12 l12,-12 l28,0 l0,24 l-28,0 l-12,-12"
-                stroke="white"
-                fill="rgb(48, 128, 38)"
-              ></path>
-              <path
-                d="M22,7 l10,10"
-                stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
-              ></path>
-              <path
-                d="M32,7 l-10,10"
-                stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-          </span>
-        </label>
-      </div>
-      <div class="calc__desc">
-        <Write/>
-        <v-text-field
-          v-model="description"
-          label="Добавьте заметку"
-        ></v-text-field>
-      </div>
-      <transition name="slide">
-        <div
-          v-if="isSelectCategory"
-          class="calc__keyboard"
-          key="categorySelect"
+            <span class="calc__input-delete">
+              <svg
+                width="40"
+                height="24"
+                viewBox="0 0 40 24"
+                @click="deleteLast"
+              >
+                <path
+                  d="M0,12 l12,-12 l28,0 l0,24 l-28,0 l-12,-12"
+                  stroke="white"
+                  fill="rgb(48, 128, 38)"
+                ></path>
+                <path
+                  d="M22,7 l10,10"
+                  stroke="white"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M32,7 l-10,10"
+                  stroke="white"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                ></path>
+              </svg>
+            </span>
+          </label>
+        </div>
+        <div class="calc__desc">
+          <Write/>
+          <v-text-field
+            v-model="description"
+            label="Добавьте заметку"
+          ></v-text-field>
+        </div>
+        <div class="calc__keyboard-wrap">
+          <transition name="slide">
+            <div
+              v-if="isSelectCategory"
+              class="calc__keyboard"
+              key="categorySelect"
+            >
+              <button
+                v-for="(item, key) in $store.getters.getCategories"
+                :key="key"
+                :style="`color:${colors[key]}`"
+                @click="selectCategory(item, key)"
+              >
+                <component :is="item"></component>
+              </button>
+            </div>
+            <div
+              v-else
+              class="calc__keyboard"
+              key="calcButtons"
+            >
+              <button @click="val +='1'">1</button>
+              <button @click="val +='2'">2</button>
+              <button @click="val +='3'">3</button>
+              <button @click="plus">+</button>
+              <button @click="val +='4'">4</button>
+              <button @click="val +='5'">5</button>
+              <button @click="val +='6'">6</button>
+              <button @click="minus">-</button>
+              <button @click="val +='7'">7</button>
+              <button @click="val +='8'">8</button>
+              <button @click="val +='9'">9</button>
+              <button @click="multiply">x</button>
+              <button @click="val +='.'">.</button>
+              <button @click="val +='0'">0</button>
+              <button @click="divide">/</button>
+              <button @click="equal">=</button>
+            </div>
+          </transition>
+        </div>
+        <button
+          :class="{'disabled':$store.getters.getProcessing || isSelectCategory && !selected.color || selected.color && !value}"
+          class="calc__submit"
+          @click="selected.id === 'add' ? addMoney() : selected.id === 'spent' ? selectCategory() : addSpent()"
         >
-          <button
-            v-for="(item, key) in $store.getters.getCategories"
-            :key="key"
-            :style="`color:${colors[key]}`"
-            @click="selectCategory(item, key)"
+          <div
+            class="calc__submit-icon"
+            :style="`color: ${selected.color};`"
           >
-            <component :is="item"></component>
-          </button>
-        </div>
-        <div
-          v-else
-          class="calc__keyboard"
-          key="calcButtons"
-        >
-          <button @click="val +='1'">1</button>
-          <button @click="val +='2'">2</button>
-          <button @click="val +='3'">3</button>
-          <button @click="plus">+</button>
-          <button @click="val +='4'">4</button>
-          <button @click="val +='5'">5</button>
-          <button @click="val +='6'">6</button>
-          <button @click="minus">-</button>
-          <button @click="val +='7'">7</button>
-          <button @click="val +='8'">8</button>
-          <button @click="val +='9'">9</button>
-          <button @click="multiply">x</button>
-          <button @click="val +='.'">.</button>
-          <button @click="val +='0'">0</button>
-          <button @click="divide">/</button>
-          <button @click="equal">=</button>
-        </div>
-      </transition>
-      <button
-        :class="{'disabled':$store.getters.getProcessing || isSelectCategory && !selected.color || selected.color && !value}"
-        class="calc__submit"
-        @click="selected.id === 'add' ? addMoney() : selected.id === 'spent' ? selectCategory() : addSpent()"
-      >
-        <div
-          class="calc__submit-icon"
-          :style="`color: ${selected.color};`"
-        >
-          <component
-            v-if="selected.id !== 'add' && selected.id !== 'spent'"
-            :is="selected.id"
-            width="32"
-            height="32"
-          ></component>
-        </div>
-        <div class="calc__submit-text">
-          <span v-if="selected.id === 'add'">Добавить</span>
-          <span v-else-if="selected.id === 'spent'">Выбрать категорию</span>
-          <span
-            v-else
-          >Добавить в "{{ $store.getters.getData[selected.id].title }}"
-          </span>
-        </div>
-      </button>
+            <component
+              v-if="selected.id !== 'add' && selected.id !== 'spent'"
+              :is="selected.id"
+              width="32"
+              height="32"
+            ></component>
+          </div>
+          <div class="calc__submit-text">
+            <span v-if="selected.id === 'add'">Добавить</span>
+            <span v-else-if="selected.id === 'spent'">Выбрать категорию</span>
+            <span
+              v-else
+            >Добавить в "{{ $store.getters.getData[selected.id].title }}"
+            </span>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </template>

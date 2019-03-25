@@ -2,7 +2,7 @@
 
 $green: rgb(48, 128, 38);
 
-.overlay{
+.overlay {
   position: fixed;
   display: block;
   top: 0;
@@ -12,6 +12,7 @@ $green: rgb(48, 128, 38);
   background: rgba(#000, 0.15);
   z-index: 3;
 }
+
 .calc {
   @include sizing('width', (320px: 320px, 500px: 500px));
   margin: auto auto 0;
@@ -33,20 +34,22 @@ $green: rgb(48, 128, 38);
     left: 0;
     z-index: 5;
   }
-  &__header{
+  &__header {
     line-height: 48px;
     background: $green;
     font-size: 24px;
-    color:#fff;
+    color: #fff;
     position: relative;
   }
-  &__title{
+  &__body {
+    @include sizing('padding', (320px: 10px, 500px: 15px));
+  }
+  &__title {
     line-height: 56px;
     font-weight: bold;
     font-size: 16px;
-    margin-bottom: 24px;
   }
-  &__close{
+  &__close {
     position: absolute;
     width: 36px;
     height: 36px;
@@ -58,8 +61,8 @@ $green: rgb(48, 128, 38);
     transform: translate(0, -50%);
     opacity: 0.8;
     transition: opacity 0.2s, transform 0.3s;
-    &:before, &:after{
-      content:'';
+    &:before, &:after {
+      content: '';
       position: absolute;
       width: 24px;
       height: 4px;
@@ -68,45 +71,45 @@ $green: rgb(48, 128, 38);
       top: 50%;
       left: 50%;
     }
-    &:before{
+    &:before {
       transform: translate(-50%, -50%) rotate(45deg);
     }
-    &:after{
+    &:after {
       transform: translate(-50%, -50%) rotate(-45deg);
     }
-    &:hover{
+    &:hover {
       opacity: 1;
     }
-    &:focus{
+    &:focus {
       outline: none;
     }
-    &:active{
+    &:active {
       outline: none;
       transform: translate(0, -50%) scale(0.9);
     }
   }
-  &__input{
+  &__input {
     margin-top: auto;
     width: 100%;
     position: relative;
-    border:1px solid $green;
+    border: 1px solid $green;
     border-radius: 4px;
     background: rgba($green, 0.3);
-    input{
+    input {
       width: 100%;
       line-height: 50px;
       text-align: center;
       font-size: 28px;
     }
-    &-delete{
+    &-delete {
       position: absolute;
       width: 40px;
       height: 24px;
       right: 6px;
       top: 50%;
-      transform:translate(0, -50%);
+      transform: translate(0, -50%);
     }
-    &-pre{
+    &-pre {
       width: 32px;
       height: 100%;
       display: flex;
@@ -118,81 +121,88 @@ $green: rgb(48, 128, 38);
       justify-content: space-between;
     }
   }
-  &__desc{
+  &__desc {
     width: 100%;
     margin: 12px 0;
     display: flex;
     align-items: center;
-    .svg-icon{
+    .svg-icon {
       height: 32px;
       width: 32px;
       margin-right: 16px;
-      flex:none;
+      flex: none;
     }
   }
-  &__keyboard{
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(100% + 4px);
-    height: 225px;
-    margin: -2px;
-    button{
+  &__keyboard {
+    &-wrap {
+      width: 100%;
+      height: 225px;
+      position: relative;
+      margin-bottom: 12px;
+    }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    grid-column-gap: 2px;
+    grid-row-gap: 2px;
+    top: 0;
+    width: inherit;
+    height: inherit;
+    button {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: calc(25% - 4px);
-      line-height: 50px;
-      border:1px solid rgba($green, 0.6);
+      width: 100%;
+      border: 1px solid rgba($green, 0.6);
       background: #fff;
-      color:black;
+      color: black;
       font-size: 25px;
       font-weight: bold;
       cursor: pointer;
-      margin: 2px;
       border-radius: 4px;
       transition: border-color 0.5s, background 0.5s, transform 0.2s;
-      &:hover{
+      &:hover {
         border-color: $green;
       }
-      &:focus, &:active{
+      &:focus, &:active {
         outline: 0;
       }
-      &:active{
+      &:active {
         background: rgba($green, 0.5);
         transform: scale(0.98);
       }
     }
-    .svg-icon{
+    .svg-icon {
       height: 40px;
     }
   }
-  &__submit{
+  &__submit {
     width: 100%;
     line-height: 50px;
-    border:1px solid rgba($green, 0.6);
+    border: 1px solid rgba($green, 0.6);
     background: #fff;
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 24px;
-    margin: 12px 0;
+    margin: 0;
     transition: border-color 0.5s, background 0.5s, transform 0.2s, opacity 0.3s;
-    &:hover{
+    &:hover {
       border-color: $green;
     }
-    &:focus{
+    &:focus {
       outline: none;
     }
-    &:active{
+    &:active {
       background: rgba($green, 0.5);
       transform: scale(0.99);
     }
-    &-icon{
-      flex:none;
+    &-icon {
+      flex: none;
       height: 32px;
     }
-    &-text{
+    &-text {
       width: 100%;
       font-size: 24px;
       text-align: center;
