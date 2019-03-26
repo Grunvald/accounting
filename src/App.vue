@@ -1,74 +1,51 @@
 <template>
   <v-app>
-    <v-toolbar
-      app
-      :class="{'blurred':isBlured}"
+    <transition
+      name="slideRight"
+      appear
     >
-      <v-toolbar-title class="headline text-uppercase d-flex align-center">
-        <v-img
-          v-if="$store.getters.userPic"
-          :src="$store.getters.userPic"
-          class="user-pic"
-        ></v-img>
-        <span class="font-weight-light">{{ $store.getters.userEmail }}</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
+      <div
         v-if="isAuth"
-        @click="signOut"
-      >Выйти
-      </v-btn>
-      <template v-else>
+        :class="{'blurred': isBlurred}"
+        class="log-out"
+      >
         <v-btn
-          flat
-          :to="{name:'SignIn'}"
+          fab
+          dark
+          color="teal"
+          @click="$store.dispatch('signOut')"
         >
-          Войти
+          <v-icon dark>logout</v-icon>
         </v-btn>
-        <v-btn
-          flat
-          :to="{name:'SignUp'}"
-        >
-          Зарегистрироваться
-        </v-btn>
-      </template>
-    </v-toolbar>
-    <v-content>
-      <transition name="fade" mode="out-in">
-        <router-view @CalcShow="isBlured = $event"/>
-      </transition>
-    </v-content>
+      </div>
+    </transition>
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <router-view @CalcShow="isBlurred = $event"/>
+    </transition>
   </v-app>
 </template>
 <script>
   export default {
     name: 'App',
     data: () => ({
-      data: {
-        token: '',
-        user: '',
-        error: {
-          code: '',
-          message: '',
-          email: '',
-          credential: ''
-        }
-      },
-      isBlured:false,
+      isBlurred: false,
     }),
+    watch: {
+      isAuth(value) {
+        if (!value) this.$router.push({name: 'SignIn'})
+      }
+    },
     computed: {
       isAuth() {
         return this.$store.getters.isUserAuth
       }
     },
-    mounted() {
-      // this.$store.dispatch('auth');
-    },
     methods: {
       signOut() {
         this.$store.dispatch('signOut');
-        this.$router.push({name: 'SignIn'});
       },
     }
   }
@@ -77,3 +54,10 @@
   lang="scss"
   src="./scss/main.scss"
 ></style>
+<style>
+  .log-out {
+    position: absolute;
+    right: 0;
+    transition: filter 0.3s, transform 0.5s 1s;
+  }
+</style>

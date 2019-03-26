@@ -12,7 +12,7 @@ export default {
   },
   getters: {
     isUserAuth: (state) => state.user.isAuthenticated,
-    userEmail: (state) => state.user.email
+    userEmail: (state) => state.user.email,
   },
   mutations: {
     setUser(state, payload) {
@@ -22,6 +22,9 @@ export default {
     },
     unSetUser(state) {
       state.user = {isAuthenticated: false};
+    },
+    firstInit(state){
+      state.isFirstInit = false;
     }
   },
   actions: {
@@ -66,7 +69,7 @@ export default {
         commit('setUser', {uid: payload.uid, email: payload.email});
         dispatch('loadData', payload.email);
       } else {
-        commit('unSetUser')
+        commit('unSetUser');
       }
     }
   }

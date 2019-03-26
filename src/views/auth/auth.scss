@@ -1,0 +1,30 @@
+@import './../../scss/common';
+
+.auth-modal{
+  @include sizing('width', (320px: 280px, 800px: 500px));
+  .v-card__actions{
+    padding: 0;
+    flex-direction: column-reverse;
+    @media (min-width:500px){
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+  .v-btn{
+    width: 100%;
+    @media (min-width:500px){
+      width: auto;
+    }
+    & + .v-btn {
+      margin-left: 0;
+    }
+    &:nth-child(2){
+      margin-bottom: 12px;
+      @media (min-width:500px){
+        margin-bottom: 0;
+        margin-left: 8px;
+
+      }
+    }
+  }
+}

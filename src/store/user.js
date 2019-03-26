@@ -10,19 +10,20 @@ export default {
         regular: {}
       },
       spent: {},
+      checkPeriod: 'Month'
     }
   },
   mutations: {
     setData(state, payload) {
-      state.user.spent = payload
+      state.user.spent = payload;
     },
     setIncome(state, payload) {
-      state.user.income = payload
+      state.user.income = payload;
     }
   },
   getters: {
     getData: (state) => state.user.spent,
-    getBalance: (state) => {
+    getBalance: (state, getters) => {
       let res = 0;
       if (state.user.income.once[date.getFullYear()] && state.user.income.once[date.getFullYear()][date.getMonth()]) {
         let data = state.user.income.once[date.getFullYear()][date.getMonth()];
@@ -30,28 +31,47 @@ export default {
           res += data[el].price;
         });
       }
-      return res;
+      return res - getters.getSpent.total;
     },
     getSpent: (state) => {
-      let total = 0;
-      let res = {};
-      let date = new Date();
-      let y = date.getFullYear();
-      let m = date.getMonth();
-      let data = state.user.spent;
-      for(let id in data){
-        res[id] = 0;
-        if(data[id][y] && data[id][y][m])
-        Object.keys(data[id][y][m]).forEach(el => {
-          res[id] += data[id][y][m][el].price;
-          total += data[id][y][m][el].price;
-        })
+      const res = {total: 0};
+      const data = state.user.spent;
+
+      for (let id in data) {
+        res[id] = {total: 0};
+        for (let y in data[id]) {
+          if (!isNaN(y)) {
+            res[id][y] = {total: 0};
+            for (let m in data[id][y]) {
+              res[id][y][m] = {total: 0};
+              for (let i in data[id][y][m]) {
+                res[id][y][m].total += data[id][y][m][i].price;
+              }
+              res[id][y].total += res[id][y][m].total;
+            }
+            res[id].total += res[id][y].total;
+          }
+        }
+        res.total += res[id].total;
       }
-      res.total = total;
       return res;
     },
-    getCategories(state){
+    getCategories: (state) => {
       return Object.keys(state.user.spent)
+    },
+    getCheckPeriod: (state) => state.user.checkPeriod,
+    getTotalSpentForPeriod: (state, getters) => {
+      const date = getters.today;
+      let res = 0;
+      switch (getters.getCheckPeriod) {
+        case 'Month':
+          Object.keys(getters.getSpent).forEach(id => {
+            if (id !== 'Total' && getters.getSpent[id][date.getFullYear()] && getters.getSpent[id][date.getFullYear()][date.getMonth()]) {
+              res += getters.getSpent[id][date.getFullYear()][date.getMonth()].total
+            }
+          });
+          return res;
+      }
     }
   },
 

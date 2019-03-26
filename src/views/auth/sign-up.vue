@@ -7,54 +7,49 @@
       align-center
       justify-center
     >
-      <v-flex
-        xs12
-        sm8
-        md4
-      >
-        <v-card class="elevation-12">
-          <v-toolbar
-            dark
-            color="primary"
-          >
-            <v-toolbar-title>Регистрация</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form>
-              <v-alert
-                :value="error"
-                type="warning"
-              >
-                {{ error }}
-              </v-alert>
-              <v-text-field
-                v-model="email"
-                prepend-icon="person"
-                name="login"
-                label="E-mail"
-                type="text"
-              ></v-text-field>
-              <v-text-field
-                v-model="password"
-                prepend-icon="lock"
-                name="password"
-                label="Password"
-                id="password"
-                type="password"
-              ></v-text-field>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              :disabled="!email || !password || processing"
-              color="primary"
-              @click.prevent="signUp"
-            >Зарегистрироваться
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
+      <v-card class="elevation-12 auth-modal">
+        <v-toolbar
+          dark
+          color="primary"
+        >
+          <v-toolbar-title>Регистрация</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          <v-form @submit.prevent="signUp">
+            <v-alert
+              transition="fade"
+              :value="error"
+              type="warning"
+            >
+              {{ error }}
+            </v-alert>
+            <v-text-field
+              v-model="email"
+              prepend-icon="person"
+              name="login"
+              label="E-mail"
+              type="text"
+            ></v-text-field>
+            <v-text-field
+              v-model="password"
+              prepend-icon="lock"
+              name="password"
+              label="Password"
+              id="password"
+              type="password"
+            ></v-text-field>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                :disabled="!email || !password || processing"
+                color="primary"
+                type="submit"
+              >Зарегистрироваться
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </v-layout>
   </v-container>
 </template>
@@ -65,19 +60,19 @@
       email: null,
       password: null
     }),
-    watch:{
-      isAuth(val){
-        if (val) this.$router.push({name:'Home'})
+    watch: {
+      isAuth(val) {
+        if (val) this.$router.push({name: 'Home'})
       }
     },
     computed: {
       error() {
         return this.$store.getters.getError;
       },
-      processing(){
+      processing() {
         return this.$store.getters.getProcessing
       },
-      isAuth(){
+      isAuth() {
         return this.$store.getters.isUserAuth;
       }
     },
@@ -91,5 +86,5 @@
 </script>
 <style
   lang="scss"
-  src=""
+  src="./auth.scss"
 ></style>

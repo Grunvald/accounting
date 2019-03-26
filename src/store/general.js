@@ -13,7 +13,7 @@ export default {
       },
       entertainment: {
         id: 'entertainment',
-        title: 'Развдечения'
+        title: 'Развлечения'
       },
       food: {
         id: 'food',
@@ -64,6 +64,7 @@ export default {
     getProcessing: (state) => state.processing,
     getError: (state) => state.error,
     getDefauilState: (state) => state.categories,
+    today: () => new Date()
   },
 
   actions: {},

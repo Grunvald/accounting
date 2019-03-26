@@ -50,3 +50,8 @@
 .flip-leave-to {
   transform: scaleX(0);
 }
+
+
+.slideRight-enter, .slideRight-leave-to {
+  transform: translate( 100px, 0 );
+}

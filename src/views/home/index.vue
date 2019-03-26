@@ -19,7 +19,7 @@
             :data="item"
             :rotate="rotate(index)"
             :color="colors[index]"
-            :percent="($store.getters.getSpent[item.id] / $store.getters.getSpent.total * 100).toFixed(2)"
+            :percent="hoveredSpent.percent"
             @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
           />
         </div>
@@ -32,7 +32,7 @@
             class="main__info-title"
           >
             <h2 v-text="$store.getters.getData[hovered.id].title"></h2>
-            <h3 v-html="formatMoney($store.getters.getSpent[hovered.id])"></h3>
+            <h3 v-html="hoveredSpent.total"></h3>
           </div>
           <div
             v-else
@@ -105,8 +105,8 @@
       selected: '',
       hovered: null
     }),
-    watch:{
-      isCalcShow(value){
+    watch: {
+      isCalcShow(value) {
         this.$emit('CalcShow', value)
       }
     },
@@ -116,25 +116,55 @@
       },
       totalSpent() {
         return this.formatMoney(this.$store.getters.getSpent.total);
+      },
+      date() {
+        return this.$store.getters.today
+      },
+      hoveredSpent() {
+        let res = {
+          total: 0,
+          percent: 0
+        };
+        if (this.hovered) {
+          switch (this.$store.getters.getCheckPeriod) {
+            case 'Month':
+              if (this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()] && this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()][this.date.getMonth()]) {
+                res.percent = (this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()][this.date.getMonth()].total / this.$store.getters.getTotalSpentForPeriod * 100).toFixed(2);
+                res.total = this.formatMoney(this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()][this.date.getMonth()].total);
+              }
+              break;
+            case 'Year':
+              if (this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()]) {
+                res.percent = (this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()].total / this.$store.getters.getTotalSpentForPeriod * 100).toFixed(2);
+                res.total = this.formatMoney(this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()].total);
+              }
+              break;
+          }
+        }
+        return res;
       }
     },
-    mounted(){
+    mounted() {
       window.addEventListener('popstate', this.closeCalcOnBack)
-    },
+    }
+    ,
     methods: {
       rotate(index) {
         return 360 / Object.keys(this.$store.getters.getData).length * index
-      },
+      }
+      ,
       showCalc(id) {
         this.isCalcShow = true;
         this.selected = id;
-      },
+      }
+      ,
       closeCalcOnBack(event) {
-        if(this.isCalcShow){
+        if (this.isCalcShow) {
           event.preventDefault();
           this.isCalcShow = false;
         }
-      },
+      }
+      ,
       formatMoney(value) {
         let val = (value / 1).toFixed(2).replace('.', ',');
         let res = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").split(',');

@@ -1,5 +1,19 @@
 import Vue from 'vue';
-import './plugins/vuetify';
+//import './plugins/vuetify';
+import Vuetify, {
+  VApp,
+  VContainer,
+  VLayout,
+  VCard,
+  VAlert,
+  VForm,
+  VToolbar,
+  VFadeTransition,
+} from 'vuetify/lib';
+import 'vuetify/src/stylus/app.styl';
+
+import { Ripple } from 'vuetify/lib/directives';
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -16,6 +30,22 @@ const config = {
   storageBucket: "homeaccounting-bba8d.appspot.com",
   messagingSenderId: "729782110521"
 };
+
+Vue.use(Vuetify, {
+  components: {
+    VApp,
+    VContainer,
+    VLayout,
+    VCard,
+    VAlert,
+    VForm,
+    VToolbar,
+    VFadeTransition
+  },
+  directives: {
+    Ripple
+  }
+});
 
 
 //import './registerServiceWorker';
