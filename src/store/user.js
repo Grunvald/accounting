@@ -10,8 +10,13 @@ export default {
         regular: {}
       },
       spent: {},
-      checkPeriod: 'Month'
-    }
+      checkPeriod: null
+    },
+    availablePeriods: [
+      'Month',
+      'Year',
+      'All',
+    ]
   },
   mutations: {
     setData(state, payload) {
@@ -19,6 +24,9 @@ export default {
     },
     setIncome(state, payload) {
       state.user.income = payload;
+    },
+    setPeriod(state, payload) {
+      state.user.checkPeriod = payload;
     }
   },
   getters: {
@@ -56,10 +64,27 @@ export default {
       }
       return res;
     },
+    getIncome: (state) => {
+      let res = {total: 0};
+      const data = state.user.income.once;
+      for (let y in data) {
+        res[y] = {total: 0};
+        for (let m in data[y]) {
+          res[y][m] = {total: 0};
+          for (let i in data[y][m]) {
+            res[y][m].total += data[y][m][i].price
+          }
+          res[y].total += res[y][m].total;
+        }
+        res.total += res[y].total
+      }
+      return res;
+    },
     getCategories: (state) => {
       return Object.keys(state.user.spent)
     },
-    getCheckPeriod: (state) => state.user.checkPeriod,
+    getCheckPeriod: (state) => state.user.checkPeriod || 'Month',
+    getAvailablePeriod: (state) => state.availablePeriods,
     getTotalSpentForPeriod: (state, getters) => {
       const date = getters.today;
       let res = 0;
@@ -71,6 +96,25 @@ export default {
             }
           });
           return res;
+        case 'Year':
+          Object.keys(getters.getSpent).forEach(id => {
+            if (id !== 'Total' && getters.getSpent[id][date.getFullYear()]) {
+              res += getters.getSpent[id][date.getFullYear()].total
+            }
+          });
+          return res;
+        case 'All':
+          return getters.getSpent.total;
+      }
+    },
+    getTotalIncomeForPeriod(state, getters) {
+      switch (getters.getCheckPeriod) {
+        case 'Month':
+          return getters.getIncome[getters.today.getFullYear()] && getters.getIncome[getters.today.getFullYear()][getters.today.getMonth()] ? getters.getIncome[getters.today.getFullYear()][getters.today.getMonth()].total : 0;
+        case 'Year':
+          return getters.getIncome[getters.today.getFullYear()] ? getters.getIncome[getters.today.getFullYear()].total : 0;
+        case 'All':
+          return getters.getIncome.total || 0;
       }
     }
   },
@@ -102,6 +146,11 @@ export default {
         .onSnapshot(doc => {
           commit('setData', doc.data());
         });
+      Vue.$db.collection(payload).doc('user')
+        .onSnapshot(doc => {
+          commit('setPeriod', doc.data().checkPeriod);
+        });
+      // Vue.$db.collection(payload).doc('user').get().then(res => commit())
     },
 
     addSpent({commit, getters}, payload) {
@@ -138,5 +187,8 @@ export default {
           commit('setError', error);
         })
     },
+    setCheckPeriod({commit, state, getters}, payload) {
+      Vue.$db.collection(getters.userEmail).doc('user').update('checkPeriod', payload);
+    }
   }
 }

@@ -28,3 +28,14 @@
     }
   }
 }
+.log-out, .settings{
+  z-index: 8;
+  .v-btn{
+    @include sizing('width', (320px: 28px, 800px: 50px));
+    @include sizing('height', (320px: 28px, 800px: 50px));
+    transition: none;
+    .v-icon {
+      @include sizing('font-size', (320px: 16px, 800px: 24px));
+    }
+  }
+}

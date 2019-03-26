@@ -4,25 +4,16 @@
       :style="`transform:rotate(${-rotate}deg); color:${color}`"
       class="card__ico-wrap"
       @click="$emit('showCalc')"
-      @mouseover="hovered = true"
-      @mouseleave="hovered = false"
     >
-      <transition
-        name="flip"
-        mode="out-in"
-      >
         <span
-          v-if="hovered"
           class="card__ico-percent"
         >{{percent}}%
         </span>
         <component
-          v-else
           :is="data.id"
           class="card__ico"
           :alt="data.id"
         />
-      </transition>
     </div>
   </div>
 </template>

@@ -7,6 +7,14 @@
     flex:none;
     @include sizing('width', (320px: 32px, 500px: 38px));
     @include sizing('height', (320px: 32px, 500px: 38px));
+    transition: transform 0.2s 0.1s;
+    transform: scaleX(1);
+    &-percent{
+      position: absolute;
+      opacity: 0;
+      transform: scaleX(0);
+      transition: transform 0.2s, opacity 0s;
+    }
     &-wrap {
       position: absolute;
       top: 0;
@@ -36,6 +44,15 @@
         box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.3), inset 2px 2px 10px 0 rgba(0, 0, 0, 0.1);
         &:before{
           opacity: 0.15;
+        }
+        .card__ico{
+          transform: scaleX(0);
+          transition: transform 0.2s;
+          &-percent{
+            opacity: 1;
+            transition: transform 0.2s 0.2s, opacity 0.1s;
+            transform: scaleX(1);
+          }
         }
       }
     }

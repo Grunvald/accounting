@@ -1,50 +1,69 @@
 <template>
   <main>
-    <div
-      :class="{'blurred':isCalcShow}"
-      class="main"
-    >
+    <div class="main-wrap">
       <div
-        v-for="(item, key, index) in $store.getters.getData"
-        :key="key"
-        class="main__item-wrap"
+        :class="{'blurred':isCalcShow}"
+        class="main"
       >
         <div
-          class="main__item"
-          :style="`transform:rotate(${rotate(index)}deg)`"
-          @mouseover="hovered = {id:item.id, index:index, color:colors[index]}"
-          @mouseleave="hovered = null"
+          v-for="(item, key, index) in $store.getters.getData"
+          :key="key"
+          class="main__item-wrap"
         >
-          <Card
-            :data="item"
-            :rotate="rotate(index)"
-            :color="colors[index]"
-            :percent="hoveredSpent.percent"
-            @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
-          />
+          <div
+            class="main__item"
+            :style="`transform:rotate(${rotate(index)}deg)`"
+            @mouseover="hovered = {id:item.id, index:index, color:colors[index]}"
+            @mouseleave="hovered = null"
+          >
+            <Card
+              :data="item"
+              :rotate="rotate(index)"
+              :color="colors[index]"
+              :percent="hoveredSpent.percent"
+              @showCalc="showCalc({id:item.id, index:index, color:colors[index]})"
+            />
+          </div>
+        </div>
+        <div class="main__info">
+          <transition name="slide">
+            <div
+              v-if="hovered"
+              key="title"
+              class="main__info-title"
+            >
+              <h2
+                class="info-title"
+                v-text="$store.getters.getData[hovered.id].title"
+              ></h2>
+              <h3
+                class="info-total"
+                v-html="hoveredSpent.total"
+              ></h3>
+            </div>
+            <div
+              v-else
+              key="balance"
+              class="main__info-balance"
+            >
+              <h3
+                v-html="income"
+                class="balance-income"
+              ></h3>
+              <h2
+                v-html="balance"
+                class="balance"
+              ></h2>
+              <h3
+                v-html="totalSpent"
+                class="balance-totalSpent"
+              ></h3>
+            </div>
+          </transition>
         </div>
       </div>
-      <div class="main__info">
-        <transition name="slide">
-          <div
-            v-if="hovered"
-            key="title"
-            class="main__info-title"
-          >
-            <h2 v-text="$store.getters.getData[hovered.id].title"></h2>
-            <h3 v-html="hoveredSpent.total"></h3>
-          </div>
-          <div
-            v-else
-            key="balance"
-            class="main__info-balance"
-          >
-            <h2 v-html="balance"></h2>
-            <h3 v-html="totalSpent"></h3>
-          </div>
-        </transition>
-      </div>
     </div>
+    <History/>
     <div
       :class="{'blurred':isCalcShow}"
       class="main__control"
@@ -79,12 +98,14 @@
 <script>
   import Card from './card';
   import Calc from './calc'
+  import History from './history'
 
   export default {
     name: "index",
     components: {
       Card,
       Calc,
+      History
     },
     data: () => ({
       colors: [
@@ -115,7 +136,10 @@
         return this.formatMoney(this.$store.getters.getBalance);
       },
       totalSpent() {
-        return this.formatMoney(this.$store.getters.getSpent.total);
+        return this.formatMoney(this.$store.getters.getTotalSpentForPeriod);
+      },
+      income() {
+        return this.formatMoney(this.$store.getters.getTotalIncomeForPeriod);
       },
       date() {
         return this.$store.getters.today
@@ -139,6 +163,9 @@
                 res.total = this.formatMoney(this.$store.getters.getSpent[this.hovered.id][this.date.getFullYear()].total);
               }
               break;
+            case 'All':
+              res.percent = (this.$store.getters.getSpent[this.hovered.id].total / this.$store.getters.getTotalSpentForPeriod * 100).toFixed(2);
+              res.total = this.formatMoney(this.$store.getters.getSpent[this.hovered.id].total);
           }
         }
         return res;
@@ -146,25 +173,21 @@
     },
     mounted() {
       window.addEventListener('popstate', this.closeCalcOnBack)
-    }
-    ,
+    },
     methods: {
       rotate(index) {
         return 360 / Object.keys(this.$store.getters.getData).length * index
-      }
-      ,
+      },
       showCalc(id) {
         this.isCalcShow = true;
         this.selected = id;
-      }
-      ,
+      },
       closeCalcOnBack(event) {
         if (this.isCalcShow) {
           event.preventDefault();
           this.isCalcShow = false;
         }
-      }
-      ,
+      },
       formatMoney(value) {
         let val = (value / 1).toFixed(2).replace('.', ',');
         let res = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").split(',');

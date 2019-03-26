@@ -7,7 +7,7 @@ export default {
     user: {
       isAuthenticated: false,
       uid: null,
-      email: null
+      email: null,
     }
   },
   getters: {
@@ -22,9 +22,6 @@ export default {
     },
     unSetUser(state) {
       state.user = {isAuthenticated: false};
-    },
-    firstInit(state){
-      state.isFirstInit = false;
     }
   },
   actions: {

@@ -165,7 +165,6 @@
     }),
     mounted() {
       document.addEventListener('click', this.close);
-      document.addEventListener('', this.close)
     },
     computed: {
       header() {

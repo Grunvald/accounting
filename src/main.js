@@ -1,5 +1,5 @@
 import Vue from 'vue';
-//import './plugins/vuetify';
+
 import Vuetify, {
   VApp,
   VContainer,
@@ -17,6 +17,7 @@ import { Ripple } from 'vuetify/lib/directives';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
