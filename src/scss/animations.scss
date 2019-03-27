@@ -17,7 +17,7 @@
 }
 
 .slide-enter-active, .slide-leave-active {
-  transition: opacity .3s, transform 0.3s ease-out;
+  transition: transform 0.4s;
 }
 
 .slide-leave-active {
@@ -25,14 +25,14 @@
 }
 
 .slide-enter {
-  opacity: 0;
-  transform: translate(-100%, 0) skewX(-40deg);
+  transform: translate(-200px, 0) skewX(-40deg);
 }
 
 .slide-leave-to {
-  opacity: 0;
-  transform: translate(100%, 0) skewX(-40deg);
+  transform: translate(200px, 0) skewX(-40deg);
 }
+
+
 
 .flip-enter-active, .flip-leave-active {
   transition: transform 0.15s ease-out;

@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="main__info">
-          <transition name="slide">
+          <transition name="slide" >
             <div
               v-if="hovered"
               key="title"
