@@ -76,6 +76,10 @@
         return this.$store.getters.isUserAuth;
       }
     },
+    mounted(){
+      this.email = null;
+      this.password = null;
+    },
     methods: {
       signUp() {
         this.$store.commit('cleanError');

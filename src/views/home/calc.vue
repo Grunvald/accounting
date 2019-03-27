@@ -171,7 +171,6 @@
         return 'Новый расход'
       },
       today() {
-        console.log(date.getDay());
         return `${days[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`
       },
       value() {

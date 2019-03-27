@@ -25,6 +25,7 @@
           <div class="history__body">
             <ul class="history__list">
               <li
+                v-if="$store.getters.getTotalIncome.once['2019'] && $store.getters.getTotalIncome.once['2019']['2']"
                 class="history__list-item history__list-item--income"
                 @click="toggleActive($event)"
               >
