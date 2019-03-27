@@ -1,5 +1,5 @@
 .history-wrap {
-  height: 50px;
+  height: 62px;
   margin: 0;
   position: relative;
 }
@@ -24,6 +24,8 @@
     color: #689F38;
     background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(197, 225, 165, 0.2) 50%, rgba(0, 0, 0, 0) 100%);
     transition: color 0.2s;
+    margin-bottom: 6px;
+    margin-top: 6px;
     &:focus {
       outline: none;
     }
@@ -63,7 +65,7 @@
     height: inherit;
     overflow-x: hidden;
     overflow-y: auto;
-    background: linear-gradient(to top, rgb(51, 105, 30, 0.2) 0%, rgb(241, 248, 233) 5%, rgb(241, 248, 233) 85%, rgb(51, 105, 30, 0.2) 99%, #fff 99%);
+    background: linear-gradient(to top, rgb(51, 105, 30, 0.2) 0%, rgb(241, 248, 233) 5%, rgb(241, 248, 233) 95%, rgb(51, 105, 30, 0.2) 100%);
     scrollbar-width: thin;
     &::-webkit-scrollbar {
       width: 6px;

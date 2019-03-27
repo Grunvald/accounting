@@ -102,6 +102,7 @@ $red: #cd445e;
       align-items: center;
       justify-content: center;
       flex: none;
+      transition: background 0.3s;
       &:before, &:after {
         content: '';
         position: absolute;
@@ -115,11 +116,18 @@ $red: #cd445e;
       }
       &--spent {
         color: $red;
+        &:hover{
+          background: rgba($red, 0.3);
+        }
       }
       &--add {
         color: $green;
         &:before {
           transform: rotate(90deg);
+        }
+        &:hover{
+          background: rgba($green, 0.3);
+
         }
       }
     }
