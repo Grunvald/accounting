@@ -10,7 +10,7 @@ $green: rgb(48, 128, 38);
   left: 0;
   right: 0;
   background: rgba(#000, 0.15);
-  z-index: 3;
+  z-index: 13;
 }
 
 .calc {
@@ -32,7 +32,7 @@ $green: rgb(48, 128, 38);
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 5;
+    z-index: 15;
   }
   &__header {
     line-height: 48px;

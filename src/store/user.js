@@ -80,6 +80,9 @@ export default {
       }
       return res;
     },
+    getTotalIncome: (state)=>{
+      return state.user.income || 0;
+    },
     getCategories: (state) => {
       return Object.keys(state.user.spent)
     },

@@ -1,41 +1,44 @@
-.history-wrap{
+.history-wrap {
   height: 50px;
   margin: 0;
-}
-.history{
   position: relative;
+}
+
+.history {
+  position: absolute;
+  bottom: 0;
   width: 100%;
-  height: inherit;
   z-index: 11;
   background: #FFF;
-  &--opened{
+  overflow: hidden;
+  &--opened {
     position: absolute;
-    top: 0;
+    bottom: 0;
   }
-  &__title{
+  &__title {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
     font-size: 24px;
-    color:#689F38;
+    color: #689F38;
     background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(197, 225, 165, 0.2) 50%, rgba(0, 0, 0, 0) 100%);
     transition: color 0.2s;
-    &:focus{
-      outline:none;
+    &:focus {
+      outline: none;
     }
-    &:hover{
-      color:#33691E;
+    &:hover {
+      color: #33691E;
     }
-    .burger{
+    .burger {
       position: relative;
-      color:inherit;
+      color: inherit;
       width: 48px;
       height: 24px;
-      border-top:2px solid currentcolor;
-      border-bottom:2px solid currentcolor;
-      &:before{
-        content:'';
+      border-top: 2px solid currentcolor;
+      border-bottom: 2px solid currentcolor;
+      &:before {
+        content: '';
         position: absolute;
         width: inherit;
         top: 50%;
@@ -45,11 +48,149 @@
         transform: translateY(-50%);
       }
     }
-    .text{
+    .text {
       padding: 6px 24px;
-      border:1px solid;
+      border: 1px solid;
       border-radius: 4px;
       background: #C5E1A5;
+    }
+  }
+  &__body-wrap {
+    transition: height 0.3s;
+    box-sizing: border-box;
+  }
+  &__body {
+    height: inherit;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: linear-gradient(to top, rgb(51, 105, 30, 0.2) 0%, rgb(241, 248, 233) 5%, rgb(241, 248, 233) 85%, rgb(51, 105, 30, 0.2) 99%, #fff 99%);
+    scrollbar-width: thin;
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #CFD8DC;
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #37474F;
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:horizontal {
+      min-height: 6px;
+    }
+  }
+}
+
+.history__list {
+  list-style: none;
+  padding: 24px;
+  &-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    border-bottom: 1px solid #CFD8DC;
+    padding-bottom: 6px;
+    margin: auto;
+    &-body {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+      &:before {
+        content: "";
+        position: relative;
+        display: block;
+        width: 6px;
+        height: 6px;
+        margin-right: 12px;
+        border-left: 1px solid;
+        border-top: 1px solid;
+        transform: rotate(-135deg);
+        transition: transform 0.2s;
+      }
+    }
+
+    .title {
+      margin: 0 2px 0 8px;
+    }
+    .badge {
+      padding: 0 5px;
+      display: block;
+      position: relative;
+      color: white;
+      background: #689F38;
+      font-size: 10px;
+      line-height: 14px;
+      border-radius: 12px;
+      top: -4px;
+    }
+    .spent, .income {
+      margin-left: auto;
+      font-size: 16px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .spent {
+      color: #E53935;
+    }
+    .income {
+      color: #2E7D32;
+    }
+    &.active {
+      .history__list--sub {
+        display: block;
+      }
+    }
+    &.active &-body {
+      &:before {
+        transform: rotate(45deg);
+      }
+    }
+    &--income {
+      .history__list--sub-item {
+        &:before {
+          background: radial-gradient(#689F38 20%, transparent 50%);
+        }
+      }
+    }
+  }
+  &--sub {
+    display: none;
+    padding-left: 20px;
+    margin-top: 8px;
+    &-item {
+      display: flex;
+      align-items: center;
+      &:before {
+        content: '';
+        flex: none;
+        position: relative;
+        width: 16px;
+        height: 16px;
+        margin-right: 14px;
+        border-radius: 50%;
+        background: radial-gradient(#D50000 20%, transparent 50%);
+      }
+      .date {
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .price {
+        font-weight: bold;
+        margin-right: 12px;
+        white-space: nowrap;
+      }
+      .descr {
+        color: #263238;
+        padding: 0 6px;
+      }
     }
   }
 }
