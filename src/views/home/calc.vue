@@ -26,12 +26,14 @@
               type="text"
               disabled
             >
-            <span class="calc__input-delete">
+            <span
+              class="calc__input-delete"
+              @click.prevent="deleteLast"
+            >
               <svg
                 width="40"
                 height="24"
                 viewBox="0 0 40 24"
-                @click="deleteLast"
               >
                 <path
                   d="M0,12 l12,-12 l28,0 l0,24 l-28,0 l-12,-12"

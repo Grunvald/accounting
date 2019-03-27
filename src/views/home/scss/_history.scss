@@ -66,7 +66,7 @@
   &__body {
     height: inherit;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     background: linear-gradient(to top, rgb(51, 105, 30, 0.2) 0%, rgb(241, 248, 233) 5%, rgb(241, 248, 233) 95%, rgb(51, 105, 30, 0.2) 100%);
     scrollbar-width: thin;
     &::-webkit-scrollbar {
@@ -75,7 +75,6 @@
       background-color: transparent;
     }
     &::-webkit-scrollbar-track {
-      background-color: #CFD8DC;
       border-radius: 4px;
     }
     &::-webkit-scrollbar-corner {

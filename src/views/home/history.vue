@@ -6,7 +6,7 @@
     >
       <button
         class="history__title"
-        @click="changeStateHistory"
+        @click.prevent="changeStateHistory"
       >
         <div class="burger"></div>
         <span class="text">ИСТОРИЯ</span>

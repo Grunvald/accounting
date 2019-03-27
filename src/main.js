@@ -10,6 +10,7 @@ import Vuetify, {
   VToolbar,
   VFadeTransition,
 } from 'vuetify/lib';
+
 import 'vuetify/src/stylus/app.styl';
 
 import { Ripple } from 'vuetify/lib/directives';
