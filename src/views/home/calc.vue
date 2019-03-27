@@ -102,7 +102,7 @@
           </transition>
         </div>
         <button
-          :class="{'disabled':$store.getters.getProcessing || isSelectCategory && !selected.color || selected.color && !value}"
+          :class="{'disabled':$store.getters.getProcessing || isSelectCategory && !selected.color || selected.color && !value || selected.id === 'add' && !value }"
           class="calc__submit"
           @click="selected.id === 'add' ? addMoney() : selected.id === 'spent' ? selectCategory() : addSpent()"
         >
@@ -168,7 +168,7 @@
     },
     computed: {
       header() {
-        return 'Новый расход'
+        return this.selected.id === 'add' ? 'Новый доход' : 'Новый расход'
       },
       today() {
         return `${days[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`
@@ -197,7 +197,6 @@
         }
       },
       addMoney() {
-        debugger;
         let res = {
           id: 'once',
           sum: this.value,

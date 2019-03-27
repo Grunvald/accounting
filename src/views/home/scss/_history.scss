@@ -1,3 +1,5 @@
+@import './../../../scss/common';
+
 .history-wrap {
   height: 62px;
   margin: 0;
@@ -170,13 +172,16 @@
     &-item {
       display: flex;
       align-items: center;
+      &:nth-child(2n +1){
+        background: radial-gradient(white, transparent 80%);
+      }
       &:before {
         content: '';
         flex: none;
         position: relative;
         width: 16px;
         height: 16px;
-        margin-right: 14px;
+        @include sizing('margin-right', (320px: 4px, 500px: 14px));
         border-radius: 50%;
         background: radial-gradient(#D50000 20%, transparent 50%);
       }
@@ -186,8 +191,10 @@
       }
       .price {
         font-weight: bold;
-        margin-right: 12px;
         white-space: nowrap;
+        @include sizing('min-width', (320px: 75px, 500px: 100px));
+        @include sizing('margin-right', (320px: 4px, 500px: 12px));
+        @include sizing('font-size', (320px: 12px, 500px: 16px));
       }
       .descr {
         color: #263238;

@@ -199,12 +199,17 @@ $green: rgb(48, 128, 38);
       transform: scale(0.99);
     }
     &-icon {
-      flex: none;
-      height: 32px;
+      display: flex;
+      align-items: center;
+      .svg-icon {
+        flex: none;
+        @include sizing('height', (320px: 24px, 500px: 32px));
+        @include sizing('width', (320px: 24px, 500px: 32px));
+      }
     }
     &-text {
       width: 100%;
-      font-size: 24px;
+      @include sizing('font-size', (320px: 16px, 500px: 24px));
       text-align: center;
     }
   }

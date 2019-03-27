@@ -18,11 +18,19 @@
           :key="key"
           dark
           block
-          :color="`light-green lighten-1 ${key===0? 'mt-0':''}`"
-          class="aside__period-item"
+          color="light-green lighten-1"
+          :class="['aside__period-item',{'mt-0':key===0}]"
           @click="setPeriod(period)"
           v-text="periodName[period]"
         ></v-btn>
+<!--        <v-btn
+          dark
+          block
+          color="light-green lighten-1"
+          @click="addCustom"
+        >
+          add
+        </v-btn>-->
       </div>
     </div>
   </div>
@@ -47,7 +55,15 @@
       },
       close(e) {
         if (e.target.classList.contains('aside__wrap')) this.$emit('close')
-      }
+      },
+/*      addCustom(){
+        let res = {};
+        res.id = 'once';
+        res.description = 'Комуналка';
+        res.price = 79.60;
+        res.date = new Date(2018,11,24,10,30);
+        this.$store.dispatch('addSpent', res);
+      }*/
     },
   }
 </script>
